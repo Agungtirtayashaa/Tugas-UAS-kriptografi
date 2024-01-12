@@ -1,0 +1,46 @@
+import random
+
+# Fungsi enkripsi Affine OTP
+def encrypt_affine_otp(plaintext, key_a, key_b):
+    ciphertext = ""
+    for char in plaintext:
+        if char.isalpha():
+            if char.isupper():
+                ciphertext += chr((key_a * (ord(char) - ord('A')) + key_b) % 26 + ord('A'))
+            else:
+                ciphertext += chr((key_a * (ord(char) - ord('a')) + key_b) % 26 + ord('a'))
+        else:
+            ciphertext += char
+    return ciphertext
+
+# Fungsi dekripsi Affine OTP
+def decrypt_affine_otp(ciphertext, key_a, key_b):
+    mod_inv = 0
+    for i in range(26):
+        if (key_a * i) % 26 == 1:
+            mod_inv = i
+            break
+
+    plaintext = ""
+    for char in ciphertext:
+        if char.isalpha():
+            if char.isupper():
+                plaintext += chr((mod_inv * (ord(char) - ord('A') - key_b)) % 26 + ord('A'))
+            else:
+                plaintext += chr((mod_inv * (ord(char) - ord('a') - key_b)) % 26 + ord('a'))
+        else:
+            plaintext += char
+    return plaintext
+
+# Contoh penggunaan
+pesan = "Ini adalah pesan rahasia!"
+kunci_a = random.randint(1, 25)  # Kunci a harus relatif prima dengan 26
+kunci_b = random.randint(0, 25)
+
+pesan_terenkripsi = encrypt_affine_otp(pesan, kunci_a, kunci_b)
+pesan_terdekripsi = decrypt_affine_otp(pesan_terenkripsi, kunci_a, kunci_b)
+
+print(f"Pesan Asli: {pesan}")
+print(f"Pesan Terenkripsi: {pesan_terenkripsi}")
+print(f"Pesan Terdekripsi: {pesan_terdekripsi}")
+print(f"Kunci a: {kunci_a}, Kunci b: {kunci_b}")
