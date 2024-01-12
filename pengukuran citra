@@ -1,0 +1,18 @@
+import cv2
+import numpy as np
+
+# Baca citra
+image = cv2.imread('ff.png')
+# Konversi ke grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Hitung luas area citra
+area = cv2.countNonZero(gray)
+
+# Tampilkan hasil
+print(f"Luas area citra: {area} piksel")
+
+# Tampilkan citra
+cv2.imshow('Citra Asli', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
